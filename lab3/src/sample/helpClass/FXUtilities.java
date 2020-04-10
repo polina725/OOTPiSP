@@ -55,7 +55,7 @@ public class FXUtilities {
     }
 
     public static void createTextFields(ArrayList<String> list, AnchorPane pane, Map<String,String> map){
-        double topAnchor = 10.0, leftAnchor = 200.0;
+        double topAnchor = 10.0, leftAnchor = 260.0;
         int height = 20;
         for (int i = list.size()-1; i>=0 ;i--) {
             TextField text = new TextField();
