@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <AnchorPane prefHeight="500.0" prefWidth="650.0">
+      <TextArea fx:id="devicesListTextArea" editable="false" layoutX="301.0" layoutY="38.0" prefHeight="448.0" prefWidth="335.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextArea>
+      <Label layoutX="301.0" layoutY="24.0" text="All created devices: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="editButton" contentDisplay="CENTER" layoutX="78.0" layoutY="235.0" mnemonicParsing="false" text="Edit">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <ComboBox fx:id="deviceComboBox" layoutX="128.0" layoutY="45.0" prefWidth="150.0" promptText="Devices" visibleRowCount="7" />
+      <Button fx:id="chooseDeviceButton" layoutX="175.0" layoutY="128.0" mnemonicParsing="false" text="Choose" />
+      <Label layoutX="25.0" layoutY="91.0" text="Device's name">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="devicesNameTextFiled" layoutX="129.0" layoutY="86.0" />
+      <ComboBox fx:id="createdDevicesComboBox" layoutX="25.0" layoutY="189.0" prefWidth="150.0" promptText="Created Devices" />
+      <MenuBar fx:id="sampleMenu" layoutY="1.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="loadObjects" mnemonicParsing="false" text="Load objects" />
+                  <MenuItem fx:id="saveObjects" mnemonicParsing="false" text="Save objects" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </AnchorPane>
+</GridPane>
