@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static sample.helpClass.AdditionalFunction.proceedObjects;
+import static sample.helpClass.AdditionalFunction.convertStringToDeviceClass;
 
 public class JsonSerializer implements Serializer {
     @Override
@@ -54,6 +54,6 @@ public class JsonSerializer implements Serializer {
             e.printStackTrace();
             return null;
         }
-        return proceedObjects(map);
+        return convertStringToDeviceClass(map);
     }
 }

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 
 public class Laptop extends PC implements Serializable {
+  //  private static final long serialVersionUID = 7841293354034195108L;
+
     private int weight;
     private Accumulator battery;
 

@@ -5,21 +5,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 
 public abstract class Device implements Serializable {
-    private String serial_number;
+    //private static final long serialVersionUID = 770295594962823251L;
+
+    private String serialNumber;
     private String manufacturer;
 
 
     public Device(){};
-
+    
     public Device(String str){
         String[] arr = str.split("/");
-        this.serial_number = arr[0].trim();
+        this.serialNumber = arr[0].trim();
         this.manufacturer = arr[1].trim();
     }
 
 
     public void setSerialNumber(String sn) { //protected
-        this.serial_number = sn;
+        this.serialNumber = sn;
     }
 
     public void setManufacturer(String m) {
@@ -27,7 +29,7 @@ public abstract class Device implements Serializable {
     }
 
     public void getSerialNumber() {
-        System.out.println("Serial number: " + this.serial_number);
+        System.out.println("Serial number: " + this.serialNumber);
     }
 
     public void getManufacturer() {
@@ -38,6 +40,6 @@ public abstract class Device implements Serializable {
     @Override
     @JsonValue
     public String toString() {
-        return this.serial_number + " / " + this.manufacturer;
+        return this.serialNumber + " / " + this.manufacturer;
     }
 }

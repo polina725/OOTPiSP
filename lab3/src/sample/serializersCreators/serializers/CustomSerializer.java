@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import static sample.helpClass.AdditionalFunction.*;
-import static sample.helpClass.AdditionalFunction.proceedObjects;
+
+import static sample.helpClass.AdditionalFunction.convertStringToDeviceClass;
 
 public class CustomSerializer implements Serializer {
     @Override
@@ -52,10 +52,38 @@ public class CustomSerializer implements Serializer {
         Map<String,Object> map = new HashMap<>();
         for (String s : mapEntries){
             StringBuilder tmp = new StringBuilder(s);
-            String k = getKey(tmp.toString());
+            String k =  getKey(tmp.toString());
             String v = getValue(tmp.toString());
             map.put(k,v);
         }
-        return proceedObjects(map);
+        return convertStringToDeviceClass(map);
+    }
+
+    private static ArrayList<String> getMapElement(String str){
+        ArrayList<String> arr = new ArrayList<>();
+        String tmp;
+        while (!str.isEmpty()){
+            int index = str.indexOf(',');
+            if (index != -1) {
+                tmp = str.substring(0, index - 1);
+                str = str.substring(index+1);
+            }
+            else {
+                tmp = str;
+                str = "";
+            }
+            arr.add(tmp);
+        }
+        return arr;
+    }
+
+    private static String getKey(String str){
+        int index = str.indexOf(':');
+        return str.substring(1,index-1);
+    }
+
+    private static String getValue(String str){
+        int index = str.indexOf(':');
+        return str.substring(index+2);
     }
 }

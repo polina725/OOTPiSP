@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 
 public class PC extends Device implements Serializable {
+  //  private static final long serialVersionUID = 2540418798602709647L;
+
     private int ram;
     private String processor;
-    private int cores_number;
-
+    private int coresNumber;
 
     public PC(){};
 
@@ -17,7 +18,7 @@ public class PC extends Device implements Serializable {
         String[] arr = str.split("/");
         this.ram = Integer.parseInt(arr[2].trim());
         this.processor = arr[3].trim();
-        this.cores_number = Integer.parseInt(arr[4].trim());
+        this.coresNumber = Integer.parseInt(arr[4].trim());
     }
 
 
@@ -30,7 +31,7 @@ public class PC extends Device implements Serializable {
     }
 
     public void setCoresNumber(int n){
-        this.cores_number=n;
+        this.coresNumber=n;
     }
 
     public void getRAM() {
@@ -43,12 +44,12 @@ public class PC extends Device implements Serializable {
     }
 
     public void getCoresNumber(){
-        System.out.println("Number of cores: " + this.cores_number);
+        System.out.println("Number of cores: " + this.coresNumber);
     }
 
     @Override
     @JsonValue
     public String toString() {
-        return super.toString() + " / " + this.ram + " / " + this.processor + " / " + this.cores_number;
+        return super.toString() + " / " + this.ram + " / " + this.processor + " / " + this.coresNumber;
     }
 }

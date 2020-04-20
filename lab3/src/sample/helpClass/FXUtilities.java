@@ -118,7 +118,7 @@ public class FXUtilities {
         else if (map!=null){
             for (Map.Entry<String,Object> el : map.entrySet()){
                 String tmp="";
-                if (objectMap.get(el.getKey())!=null) {
+                if (objectMap.containsKey(el.getKey())) { /////
                     int i = 0;
                     tmp = el.getKey();
                     while (objectMap.get(tmp) != null) {

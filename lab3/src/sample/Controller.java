@@ -60,7 +60,7 @@ public class Controller {
         objectMap = new HashMap<>();
 
         chooseDeviceButton.setOnAction(actionEvent -> {
-            if (deviceComboBox.getValue()!=null && !devicesNameTextFiled.getText().equals("")&& isNameUnique(devicesNameTextFiled.getText())) {
+            if (deviceComboBox.getValue()!=null && !devicesNameTextFiled.getText().equals("")&& isNameUnique(objectMap,devicesNameTextFiled.getText())) {
                 createPane(chooseDeviceButton.getScene(), "/sample/createObject.fxml",
                         "sample.devices." + deviceComboBox.getValue(), devicesNameTextFiled.getText(), null);
                 if (objectMap.get(GlobalVariable.deviceName) != null) {

@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 
 public class WirelessHeadphones extends Device implements Serializable {
+  //  private static final long serialVersionUID = 2420007189669215843L;
+
     private String type;
-    private String case_material;
+    private String caseMaterial;
     private Accumulator battery;
-
-
 
     public WirelessHeadphones(){};
 
@@ -17,7 +17,7 @@ public class WirelessHeadphones extends Device implements Serializable {
         super(str);
         String[] arr = str.split("/");
         this.type = arr[2].trim();
-        this.case_material = arr[3].trim();
+        this.caseMaterial = arr[3].trim();
         this.battery = new Accumulator(arr[4].trim());
     }
 
@@ -28,7 +28,7 @@ public class WirelessHeadphones extends Device implements Serializable {
     }
 
     public void setCaseMaterial(String cm){
-        this.case_material=cm;
+        this.caseMaterial=cm;
     }
 
     public void setBattery(Accumulator bt){
@@ -40,7 +40,7 @@ public class WirelessHeadphones extends Device implements Serializable {
     }
 
     public void getCaseMaterial(){
-        System.out.println("Case material: " + this.case_material);
+        System.out.println("Case material: " + this.caseMaterial);
     }
 
     public void getBattery(){
@@ -50,6 +50,6 @@ public class WirelessHeadphones extends Device implements Serializable {
     @Override
     @JsonValue
     public String toString() {
-        return super.toString() + " / " + this.type + " / " + this.case_material + " / " + battery.toString();
+        return super.toString() + " / " + this.type + " / " + this.caseMaterial + " / " + battery.toString();
     }
 }

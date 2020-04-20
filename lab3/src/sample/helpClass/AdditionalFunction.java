@@ -4,10 +4,8 @@ import javafx.scene.control.Alert;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Map;
 
-import static sample.GlobalVariable.objectMap;
 import static sample.helpClass.FXUtilities.showAlertDialog;
 
 public class AdditionalFunction {
@@ -17,17 +15,16 @@ public class AdditionalFunction {
         tmp = tmp.substring(fromIndex, toIndex);
         return tmp;
     }
-
-    public static boolean isNameUnique(String name){
-        for (Map.Entry el:objectMap.entrySet())
-            if(el.getKey().equals(name)) {
-                showAlertDialog(Alert.AlertType.INFORMATION,"Each device must have a unique name.");
-                return false;
-            }
+////////
+    public static boolean isNameUnique(Map<String,Object> map, String name){
+        if(map.containsKey(name)) {
+            showAlertDialog(Alert.AlertType.INFORMATION,"Each device must have a unique name.");
+            return false;
+        }
         return true;
     }
 
-    public static Map<String,Object> proceedObjects(Map<String,Object> map) {
+    public static Map<String,Object> convertStringToDeviceClass(Map<String,Object> map) {
         for(Map.Entry<String,Object> el : map.entrySet()) {
             String tmp = (String) el.getValue();
             int ind = tmp.lastIndexOf('/');
@@ -50,31 +47,4 @@ public class AdditionalFunction {
         return map;
     }
 
-    public static ArrayList<String> getMapElement(String str){
-        ArrayList<String> arr = new ArrayList<>();
-        String tmp;
-        while (!str.isEmpty()){
-            int index = str.indexOf(',');
-            if (index != -1) {
-                tmp = str.substring(0, index - 1);
-                str = str.substring(index+1);
-            }
-            else {
-                tmp = str;
-                str = "";
-            }
-            arr.add(tmp);
-        }
-        return arr;
-    }
-
-    public static String getKey(String str){
-        int index = str.indexOf(':');
-        return str.substring(1,index-1);
-    }
-
-    public static String getValue(String str){
-        int index = str.indexOf(':');
-        return str.substring(index+2);
-    }
 }
