@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 
-import static sample.helpClass.AdditionalFunction.convertStringToDeviceClass;
+import static sample.helpClass.AdditionalFunction.convertStringToDeviceObject;
 
 public class CustomSerializer implements Serializer {
     @Override
@@ -57,7 +57,7 @@ public class CustomSerializer implements Serializer {
             String v = getValue(tmp.toString());
             map.put(k,v);
         }
-        return convertStringToDeviceClass(map);
+        return convertStringToDeviceObject(map);
     }
 
     private static ArrayList<String> getMapElement(String str){
