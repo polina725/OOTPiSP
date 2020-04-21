@@ -24,7 +24,7 @@ public class AdditionalFunction {
         return true;
     }
 
-    public static Map<String,Object> convertStringToDeviceClass(Map<String,Object> map) {
+    public static Map<String,Object> convertStringToDeviceObject(Map<String,Object> map) {
         for(Map.Entry<String,Object> el : map.entrySet()) {
             String tmp = (String) el.getValue();
             int ind = tmp.lastIndexOf('/');

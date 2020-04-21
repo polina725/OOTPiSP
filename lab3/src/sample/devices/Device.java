@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 
 public abstract class Device implements Serializable {
-    //private static final long serialVersionUID = 770295594962823251L;
+ //   private static final long serialVersionUID = 770295594962823251L;
 
     private String serialNumber;
     private String manufacturer;

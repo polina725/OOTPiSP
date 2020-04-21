@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import static sample.GlobalVariable.objectMap;
+//import static sample.GlobalVariable.objectMap;
 
 public class FXUtilities {
     public static void showAlertDialog(Alert.AlertType type, String str){
@@ -112,11 +112,11 @@ public class FXUtilities {
         return creators[i].create();
     }
 
-    public static void placeNodesToComboBox(Map<String,Object> map, ComboBox<String> comboBox){
-        if (objectMap.size()==0 && map!=null)
-            objectMap=map;
-        else if (map!=null){
-            for (Map.Entry<String,Object> el : map.entrySet()){
+    public static Map<String,Object> placeNodesToComboBox(Map<String,Object> objectMap,Map<String,Object> newMap, ComboBox<String> comboBox){
+        if (objectMap.size()==0 && newMap!=null)
+            objectMap=newMap;
+        else if (newMap!=null){
+            for (Map.Entry<String,Object> el : newMap.entrySet()){
                 String tmp="";
                 if (objectMap.containsKey(el.getKey())) { /////
                     int i = 0;
@@ -134,6 +134,7 @@ public class FXUtilities {
         comboBox.getItems().clear();
         for(Map.Entry<String,Object> el:objectMap.entrySet())
             comboBox.getItems().add(el.getKey());
+        return objectMap;
     }
 
 }

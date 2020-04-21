@@ -13,7 +13,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.*;
 
-public class CreateObjectController implements Initializable {
+public class CreateObjectController implements Initializable ,ControllerInterface {
+    private Class<?> currentClass;
+    private Map<String,Object> objectMap;
+    private String deviceName;
+    private Controller mainWindowController;
+
+    public void setValues(Map<String,Object> map,String deviceName,Class<?> c,Controller con){
+        this.currentClass =c;
+        this.objectMap=map;
+        this.deviceName=deviceName;
+        this.mainWindowController= con;
+    }
 
     @FXML
     private Button createButton;
@@ -26,9 +37,10 @@ public class CreateObjectController implements Initializable {
             Map<String,String> textFields = FXUtilities.findTextFields((Pane)root);
 
             try {
-                Object obj = GlobalVariable.currentClass.getDeclaredConstructor().newInstance();
-                Reflection.setFieldsValue(GlobalVariable.currentClass,obj,textFields);
-                GlobalVariable.objectMap.put(GlobalVariable.deviceName,obj);
+                Object obj = this.currentClass.getDeclaredConstructor().newInstance();
+                Reflection.setFieldsValue(this.currentClass,obj,textFields);
+                this.objectMap.put(this.deviceName,obj);
+                mainWindowController.setGlobalValues(this.objectMap);
             } catch (InstantiationException | InvocationTargetException | NoSuchMethodException |
                     IllegalAccessException | ClassNotFoundException e) {
                 e.printStackTrace();

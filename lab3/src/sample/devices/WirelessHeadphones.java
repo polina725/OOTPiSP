@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 
 public class WirelessHeadphones extends Device implements Serializable {
-  //  private static final long serialVersionUID = 2420007189669215843L;
+ //   private static final long serialVersionUID = 2420007189669215843L;
 
     private String type;
     private String caseMaterial;

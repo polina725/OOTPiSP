@@ -13,7 +13,19 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class EditObjectController implements Initializable {
+public class EditObjectController implements Initializable ,ControllerInterface {
+    private Class<?> currentClass;
+    private Map<String,Object> objectMap;
+    private String deviceName;
+    private Controller mainWindowController;
+
+    @Override
+    public void setValues(Map<String,Object> map,String name,Class<?> currentClass,Controller con){
+        this.currentClass =currentClass;
+        this.objectMap=map;
+        this.mainWindowController= con;
+        this.deviceName=name;
+    }
 
     @FXML
     private Button deleteButton;
@@ -25,21 +37,22 @@ public class EditObjectController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         saveButton.setOnAction(actionEvent -> {
             Parent root  = saveButton.getScene().getRoot();
-
+            Object editingObject = objectMap.get(this.deviceName);
             Map<String,String> textFields = FXUtilities.findTextFields((Pane)root);
             try {
-                Reflection.setFieldsValue(GlobalVariable.currentClass, GlobalVariable.editingObject,textFields);
+                Reflection.setFieldsValue(this.currentClass,editingObject,textFields);
             } catch (IllegalAccessException | ClassNotFoundException | NoSuchMethodException |
                     InvocationTargetException | InstantiationException e) {
                 e.printStackTrace();
             }
-            GlobalVariable.objectMap.put(GlobalVariable.deviceName, GlobalVariable.editingObject);
+            this.objectMap.put(this.deviceName, editingObject);
             root.getScene().getWindow().hide();
         });
 
         deleteButton.setOnAction(actionEvent -> {
-            GlobalVariable.objectMap.remove(GlobalVariable.deviceName);
-            GlobalVariable.isDeleted=true;
+            this.objectMap.remove(this.deviceName);
+            mainWindowController.setGlobalValues(objectMap);
+            mainWindowController.setDeleted(true);
             Parent root  = saveButton.getScene().getRoot();
             root.getScene().getWindow().hide();
         });

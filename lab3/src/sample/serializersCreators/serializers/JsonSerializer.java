@@ -3,6 +3,7 @@ package sample.serializersCreators.serializers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import sample.devices.Device;
 import sample.serializersCreators.Serializer;
 
 import java.io.File;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static sample.helpClass.AdditionalFunction.convertStringToDeviceClass;
+import static sample.helpClass.AdditionalFunction.convertStringToDeviceObject;
 
 public class JsonSerializer implements Serializer {
     @Override
@@ -54,6 +55,7 @@ public class JsonSerializer implements Serializer {
             e.printStackTrace();
             return null;
         }
-        return convertStringToDeviceClass(map);
+        return convertStringToDeviceObject(map);
     }
+
 }

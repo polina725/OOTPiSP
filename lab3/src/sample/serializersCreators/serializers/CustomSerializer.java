@@ -1,5 +1,6 @@
 package sample.serializersCreators.serializers;
 
+import sample.devices.Device;
 import sample.serializersCreators.Serializer;
 
 import java.io.File;
@@ -37,7 +38,7 @@ public class CustomSerializer implements Serializer {
     }
 
     @Override
-    public Map<String,Object> deserialize(File file){
+    public Map<String, Object> deserialize(File file){
         String str;
         try {
             Scanner scan = new Scanner(file);

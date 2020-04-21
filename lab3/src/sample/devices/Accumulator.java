@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 
 public class Accumulator implements Serializable {
-    //private static final long serialVersionUID = -7550665257233735339L;
+  //  private static final long serialVersionUID = -7550665257233735339L;
 
     private int maxWorkTime;
 
