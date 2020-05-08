@@ -17,6 +17,7 @@ public class Main extends Application {
         primaryStage.setTitle("Lab 2");
         Controller c= loader.getController();
         c.setSelfReferent();
+        c.setPluginLoader();
         primaryStage.setScene(new Scene(root, 650, 500));
         primaryStage.show();
     }

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="base32:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/base32_jar</output-path>
+    <root id="archive" name="base32.jar">
+      <element id="module-output" name="base32" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/commons-codec-1.14.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

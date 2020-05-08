@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,26 +10,28 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.helpClass.FXUtilities;
 import sample.helpClass.Reflection;
+
+import sample.pluginSupport.Plugin;
+import sample.pluginSupport.PluginLoader;
 import sample.serializersCreators.Serializer;
-import sample.serializersCreators.serializers.JsonSerializer;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-//import static sample.GlobalVariable.objectMap;
 import static sample.helpClass.AdditionalFunction.getClassName;
 import static sample.helpClass.AdditionalFunction.isNameUnique;
-import static sample.helpClass.FXUtilities.chooseSerializer;
-import static sample.helpClass.FXUtilities.placeNodesToComboBox;
+import static sample.helpClass.FXUtilities.*;
 
 
 public class Controller {
     private Controller selfReferent;
     private Map<String,Object> objectMap;
     private boolean isDeleted;
+    private PluginLoader pluginLoader;
 
     public void setGlobalValues(Map<String,Object> map){
         this.objectMap=map;
@@ -41,6 +44,8 @@ public class Controller {
     public void setSelfReferent() {
         this.selfReferent = this;
     }
+
+    public void setPluginLoader(){this.pluginLoader=new PluginLoader();}
     @FXML
     private Button editButton;
 
@@ -73,6 +78,7 @@ public class Controller {
         deviceComboBox.getItems().add("WirelessHeadphones");
 
         this.objectMap = new HashMap<>();
+   //     this.pluginLoader=new PluginLoader();
 
         chooseDeviceButton.setOnAction(actionEvent -> {
             String deviceName=devicesNameTextFiled.getText();
@@ -105,19 +111,42 @@ public class Controller {
         saveObjects.setOnAction(actionEvent -> {
             if (this.objectMap.size()!=0) {
                 StringBuilder chosenFile = new StringBuilder();
-                Serializer serializer = chooseSerializer(loadObjects.getParentPopup().getOwnerWindow(), chosenFile,true);
-                if (serializer!=null)
+                Serializer serializer = chooseSerializer(loadObjects.getParentPopup().getOwnerWindow(), chosenFile,
+                        true,pluginLoader.getAllFileExtensionEndings());
+
+                //Plugin encoder =
+                if (serializer!=null) {
+                    Plugin encoder = encoderChooser();
                     serializer.serialize(this.objectMap, new File(chosenFile.toString()));
+                    if (encoder!=null) {
+                        try {
+                            encoder.encode(chosenFile.toString());
+                        } catch (IOException ignored) {}
+                    }
+                }
             }
         });
 
         loadObjects.setOnAction(actionEvent -> {
             StringBuilder chosenFile= new StringBuilder();
-            Serializer serializer = chooseSerializer(loadObjects.getParentPopup().getOwnerWindow(),chosenFile,false);
+            Serializer serializer = chooseSerializer(loadObjects.getParentPopup().getOwnerWindow(),chosenFile,
+                                                           false,pluginLoader.getAllFileExtensionEndings());
             if (serializer!=null) {
-                Map<String, Object> map = serializer.deserialize(new File(chosenFile.toString()));
-                objectMap = placeNodesToComboBox(objectMap,map, createdDevicesComboBox);
-                redrawTextArea(devicesListTextArea, objectMap);
+                StringBuilder newFileName=new StringBuilder();
+                SimpleBooleanProperty fl = new SimpleBooleanProperty(false);
+                Plugin decoder = checkFileForEncoding(chosenFile.toString(),newFileName,fl);
+                if (!fl.get()) {
+                    if (decoder != null) {
+                        try {
+                            decoder.decode(chosenFile.toString());
+                        } catch (IOException ignored) {
+                        }
+                    } else
+                        newFileName.append(chosenFile.toString());
+                    Map<String, Object> map = serializer.deserialize(new File(newFileName.toString()));
+                    objectMap = placeNodesToComboBox(objectMap, map, createdDevicesComboBox);
+                    redrawTextArea(devicesListTextArea, objectMap);
+                }
             }
         });
 
@@ -135,7 +164,7 @@ public class Controller {
         ArrayList<String> fieldNames = new ArrayList<>();
         Class<?> currentClass=null;
         try{
-            currentClass = Class.forName(className); //"sample.devices." + deviceComboBox.getValue()
+            currentClass = Class.forName(className);
             Reflection.getAllFieldNames(currentClass,fieldNames);
         }catch(ClassNotFoundException  e) {
             e.printStackTrace();
@@ -172,4 +201,44 @@ public class Controller {
         sc.getWindow().setOpacity(1.0);
 
     }
+
+    public Plugin encoderChooser(){
+        if (this.pluginLoader.getPlugins().size()==0)
+            return null;
+        ChoiceDialog<String> chDialog = new ChoiceDialog<>("",this.pluginLoader.getAllPluginNames());
+        chDialog.setTitle("Post processing");
+        chDialog.setHeaderText("Do you want to encode you output file?");
+        chDialog.setContentText("Choose your encoder:");
+        Optional<String> result = chDialog.showAndWait();
+        if (result.isPresent()&&!result.get().equals("")){
+            int i = this.pluginLoader.getAllPluginNames().indexOf(result.get());
+            return this.pluginLoader.getPlugins().get(i);
+        }
+        return null;
+    }
+
+    public Plugin checkFileForEncoding(String fileName, StringBuilder newFileName, SimpleBooleanProperty fl){
+        String extension = fileName.substring(fileName.lastIndexOf('.'));
+        String[] fileExtensions = {".txt",".out",".json"};
+        if (this.pluginLoader.getPlugins().size()==0) {
+            for (String ext : fileExtensions)
+                if (extension.contains(ext) && !extension.equals(ext)) {
+                    showAlertDialog(Alert.AlertType.ERROR, "There is no any plugin for this file");
+                    fl.set(true);
+                    return null;
+                }
+        }
+        else
+            for (String ending : this.pluginLoader.getAllFileExtensionEndings())
+                if(extension.endsWith(ending)) {
+                    String tmp = fileName.substring(0,fileName.length()-ending.length());
+                    newFileName.append(tmp);
+                    int i= this.pluginLoader.getAllFileExtensionEndings().indexOf(ending);
+                    return this.pluginLoader.getPlugins().get(i);
+                }
+        return null;
+    }
 }
+
+// The Java 8 way to get the response value (with lambda expression).
+//        result.ifPresent(letter -> System.out.println("Your choice: " + letter));

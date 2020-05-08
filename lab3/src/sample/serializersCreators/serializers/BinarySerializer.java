@@ -1,9 +1,11 @@
 package sample.serializersCreators.serializers;
-
+import javafx.scene.control.Alert;
 import sample.serializersCreators.Serializer;
 
 import java.io.*;
 import java.util.Map;
+
+import static sample.helpClass.FXUtilities.showAlertDialog;
 
 public class BinarySerializer implements Serializer {
     @Override
@@ -16,7 +18,7 @@ public class BinarySerializer implements Serializer {
             objectOutputStream.writeObject(map);
             objectOutputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+         //   e.printStackTrace();
         }
 
     }
@@ -29,7 +31,7 @@ public class BinarySerializer implements Serializer {
             map = (Map<String, Object>) objectInputStream.readObject();
             objectInputStream.close();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+      //      showAlertDialog(Alert.AlertType.ERROR,"An error occurred");
             map = null;
         }
         return map;

@@ -40,7 +40,7 @@ public class JsonSerializer implements Serializer {
             f.write(jsonEndResult);
             f.close();
         } catch (IOException e) {
-            e.printStackTrace();
+        //    e.printStackTrace();
         }
     }
 
@@ -52,7 +52,7 @@ public class JsonSerializer implements Serializer {
         try {
             map = objectMapper.readValue(file,typeRef);
         } catch (IOException e) {
-            e.printStackTrace();
+         //   e.printStackTrace();
             return null;
         }
         return convertStringToDeviceObject(map);

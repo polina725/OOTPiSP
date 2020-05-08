@@ -33,7 +33,7 @@ public class CustomSerializer implements Serializer {
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
         }
     }
 
@@ -45,7 +45,7 @@ public class CustomSerializer implements Serializer {
             str = scan.nextLine();
             scan.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
             return  null;
         }
 

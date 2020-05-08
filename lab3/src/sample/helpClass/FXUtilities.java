@@ -15,10 +15,7 @@ import sample.serializersCreators.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 //import static sample.GlobalVariable.objectMap;
 
@@ -88,7 +85,7 @@ public class FXUtilities {
         return map;
     }
 
-    public static Serializer chooseSerializer(Window win,StringBuilder fileName,boolean saveMode){
+    public static Serializer chooseSerializer(Window win, StringBuilder fileName, boolean saveMode, ArrayList<String> fileExtensionEndings){
         Creator[] creators ={new BinarySerializerCreator(),new JsonSerializerCreator(),new CustomSerializerCreator()};
 
         FileChooser fileChooser = new FileChooser();
@@ -97,7 +94,11 @@ public class FXUtilities {
         ArrayList<String> list = new ArrayList<>();
 
         for (int i = 0; i<3;i++) {
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(filterName[i][0], filterName[i][1]));
+            List<String> ext=new ArrayList<>();
+            ext.add(filterName[i][1]);
+            for (String end:fileExtensionEndings)
+                ext.add(filterName[i][1].concat(end));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(filterName[i][0], ext));
             list.add(filterName[i][0]);
         }
         File file;
